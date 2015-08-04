@@ -20,7 +20,7 @@ export default Ember.Mixin.create({
       return Ember.Object.create({
         unknownProperty: function(property) {
           if(!_this.computedValidations[property]) {
-            return [];
+            return Ember.A();
           }
           var validationsForProperty = Object.keys(_this.computedValidations[property]);
           return validationsForProperty.reduce(function(errorsForProperty, validationForProperty) {
@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
               errorsForProperty.push(_this.computedValidations[property][validationForProperty]);
             }
             return errorsForProperty;
-          }, []);
+          }, Ember.A());
         }
       });
     }));
