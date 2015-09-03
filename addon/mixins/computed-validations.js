@@ -16,16 +16,15 @@ export default Ember.Mixin.create({
     }
 
     Ember.defineProperty(this, 'computedErrors', Ember.computed(...validations, function() {
-      var _this = this;
       return Ember.Object.create({
-        unknownProperty: function(property) {
-          if(!_this.computedValidations[property]) {
+        unknownProperty: (property)=> {
+          if(!this.computedValidations[property]) {
             return Ember.A();
           }
-          var validationsForProperty = Object.keys(_this.computedValidations[property]);
-          return validationsForProperty.reduce(function(errorsForProperty, validationForProperty) {
-            if (!_this.get(validationForProperty)) {
-              errorsForProperty.push(_this.computedValidations[property][validationForProperty]);
+          var validationsForProperty = Object.keys(this.computedValidations[property]);
+          return validationsForProperty.reduce((errorsForProperty, validationForProperty)=> {
+            if (!this.get(validationForProperty)) {
+              errorsForProperty.push(this.computedValidations[property][validationForProperty]);
             }
             return errorsForProperty;
           }, Ember.A());
