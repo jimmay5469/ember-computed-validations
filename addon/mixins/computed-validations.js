@@ -24,7 +24,9 @@ export default Ember.Mixin.create({
           var validationsForProperty = Object.keys(this.computedValidations[property]);
           return validationsForProperty.reduce((errorsForProperty, validationForProperty)=> {
             if (!this.get(validationForProperty)) {
-              errorsForProperty.push(this.computedValidations[property][validationForProperty]);
+              var errorMessage = this.computedValidations[property][validationForProperty];
+              var errorMessageNeedsEvaluated = typeof errorMessage === 'function';
+              errorsForProperty.push(errorMessageNeedsEvaluated ? errorMessage.call(this) : errorMessage);
             }
             return errorsForProperty;
           }, Ember.A());

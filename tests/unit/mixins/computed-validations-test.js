@@ -111,3 +111,25 @@ test('it can validate a property with multiple validations', function(assert) {
   assert.equal(subject.get('computedIsInvalid'), true);
   assert.deepEqual(subject.get('computedErrors.password'), ['Please enter a password.', 'The password fields must match.']);
 });
+
+test('it can get an error message from a function return value', function(assert) {
+  var ComputedValidationsObject = Ember.Object.extend(ComputedValidationsMixin, {
+    firstName: 'Bob',
+    firstNameNotTooLong: Ember.computed.gte('firstName.length', 5),
+    computedValidations: {
+      firstName: {
+        firstNameNotTooLong: function() {
+          return `A first name of '${this.get('firstName')}' is too long.`;
+        }
+      }
+    }
+  });
+  var subject = ComputedValidationsObject.create();
+  assert.deepEqual(subject.get('computedErrors.firstName'), ["A first name of 'Bob' is too long."]);
+
+  subject.set('firstName', 'Joe');
+  assert.deepEqual(subject.get('computedErrors.firstName'), ["A first name of 'Joe' is too long."]);
+
+  subject.set('firstName', 'Joseph');
+  assert.deepEqual(subject.get('computedErrors.firstName'), []);
+});
