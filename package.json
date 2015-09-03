@@ -1,6 +1,6 @@
 {
   "name": "ember-computed-validations",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Lightweight validations library for ember.js focused on computed properties.",
   "directories": {
     "doc": "doc",
