@@ -38,7 +38,10 @@ export default Ember.Component.extend(ComputedValidationsMixin, {
       'user.lastName': 'Last name is a required field.'
     },
     email: {
-      emailIsEmail: 'Please enter a valid email address.'
+      // create a dynamic error message by using a function
+      emailIsEmail: function() {
+        return `${this.get('user.email')} is not a valid email address.`;
+      }
     },
     password: {
       // you can list multiple validations
